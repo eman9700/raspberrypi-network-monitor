@@ -50,8 +50,47 @@ sudo systemctl enable --now node_exporter
 
 4. Install Grafana
 
+Grafana now uses a keyring file instead of a raw key.
+
+Download:
+wget -q https://apt.grafana.com/gpg.key
+
+Check:
+gpg --show-keys gpg.key
+
+You should see fingerprint containing your key.
+
+Convert it and move to the keyring directory
+sudo gpg --dearmor gpg.key
+sudo mv gpg.key.gpg /etc/apt/keyrings/grafana.gpg
+sudo chmod 644 /etc/apt/keyrings/grafana.gpg
+
+Update APT
+sudo apt update
+
+Install Grafana
+sudo apt install grafana -y
+
+sudo systemctl enable --now grafana-server
+
+Dashboard at:
+👉 http://<pi-ip>:3000
+Login: admin / admin
+
 5. Add Prometheus as Grafana Data Source
+
+(Open Grafana → Settings → Data Sources → Prometheus → enter http://localhost:9090)
 
 6. Network Monitoring Dashboard
 
+Use this import code:
+
+Grafana → Create → Import → enter ID
+
+Grafana Dashboard ID: 1860 (Node Exporter Full)
+
 7. Network Monitoring Dashboard
+## Additional Notes
+
+- Ensure your Raspberry Pi has a stable internet connection during installation.
+- Regularly check for updates for Prometheus, Node Exporter, and Grafana to keep your monitoring setup secure and efficient.
